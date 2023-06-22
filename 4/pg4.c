@@ -1,67 +1,69 @@
 #include<stdio.h>
 #include<string.h>
-int z=0,i=0,j=0,c=0;
-char a[16],ac[20],stk[15],act[10];
+#include<stdlib.h>
+
+char stk[25],input[25];
+char act[]="SHIFT->", ac[]="REDUCE TO E";
+int i=0; // pointer for the stack array
+int j=0; // pointer for the input array
+int c=0; // will store the length of input
+int z=0; // interation variable
 
 void main()
 {
-	puts("GRAMMAR is E->E+E \n E->E*E \n E->(E) \n E->id");
-	puts("enter input string ");
-	gets(a);
-	c=strlen(a);
-	strcpy(act,"SHIFT->");
-	puts("stack \t input \t action");
-	for(i=0; j<c; i++,j++)
-	{
-		if(a[j]=='i' && a[j+1]=='d')
+	printf("GRAMMAR is:\n E->E+E \n E->E*E \n E->(E) \n E->id");
+	printf("\nEnter input string: ");
+	scanf("%s",input);
+	c = strlen(input);
+	printf("\nStack \t   Input \t Action\n");
+	for(j=0; j<c; i++,j++)
+		if(input[j]=='i' && input[j+1]=='d')
 		{
-			stk[i]=a[j];
-			stk[i+1]=a[j+1];
+			stk[i]=input[j];
+			stk[i+1]=input[j+1];
 			stk[i+2]='\0';
-			a[j]=' ';
-			a[j+1]=' ';
-			printf("\n$%s\t%s$\t%sid",stk,a,act);
+			input[j]=' ';
+			input[j+1]=' ';
+			printf("\n$%s\t%s$\t%s id",stk,input,act);
 			check();
 		}
 		else
 		{
-			stk[i]=a[j];
+			stk[i]=input[j];
 			stk[i+1]='\0';
-			a[j]=' ';
-			printf("\n$%s\t%s$\t%ssymbol",stk,a,act);
+			input[j]=' ';
+			printf("\n$%s\t%s$\t%s %c",stk,input,act,stk[i]);
 			check();
 		}
-	}
 	printf("\n");
 }
 
 void check()
 {
-	strcpy(ac,"REDUCE TO E");
 	for(z=0; z<c; z++)
 		if(stk[z]=='i' && stk[z+1]=='d')
 		{
 			stk[z]='E';
 			stk[z+1]='\0';
-			printf("\n$%s\t%s$\t%s",stk,a,ac);
+			printf("\n$%s\t%s$\t%s",stk,input,ac);
 			j++;
 		}
 	for(z=0; z<c; z++)
 		if(stk[z]=='E' && stk[z+1]=='+' && stk[z+2]=='E')
-			reduceAction();
+			reduce();
 	for(z=0; z<c; z++)
 		if(stk[z]=='E' && stk[z+1]=='*' && stk[z+2]=='E')
-			reduceAction();
+			reduce();
 	for(z=0; z<c; z++)
 		if(stk[z]=='(' && stk[z+1]=='E' && stk[z+2]==')')
-			reduceAction();
+			reduce();
 }
 
-void reduceAction()
+void reduce()
 {
 	stk[z]='E';
 	stk[z+1]='\0';
 	stk[z+1]='\0';
-	printf("\n$%s\t%s$\t%s",stk,a,ac);
+	printf("\n$%s\t%s$\t%s",stk,input,ac);
 	i=i-2;
 }
