@@ -5,12 +5,15 @@ int main()
 	int Max[10][10], need[10][10], alloc[10][10], avail[10], completed[10], safeSequence[10];
 	int p, r, i, j, process, count;
 	count = 0;
+	
 	printf("Enter the no of processes : ");
 	scanf("%d", &p);
 	for(i = 0; i< p; i++)
 		completed[i] = 0;
+		
 	printf("Enter the no of resources : ");
 	scanf("%d", &r);
+	
 	printf("\nEnter the Max Matrix for each process :\n");
 	for(i = 0; i < p; i++)
 	{
@@ -18,6 +21,7 @@ int main()
 		for(j = 0; j < r; j++)
 			scanf("%d", &Max[i][j]);
 	}
+	
 	printf("\nEnter the allocation for each process :\n");
 	for(i = 0; i < p; i++)
 	{
@@ -25,12 +29,14 @@ int main()
 		for(j = 0; j < r; j++)
 			scanf("%d", &alloc[i][j]);
 	}
+	
 	printf("\nEnter the Available Resources : ");
 	for(i = 0; i < r; i++)
 		scanf("%d", &avail[i]);
 	for(i = 0; i < p; i++)
 		for(j = 0; j < r; j++)
 			need[i][j] = Max[i][j] - alloc[i][j];
+			
 	do
 	{
 		printf("\nMax matrix:\nAllocation matrix:\n");
@@ -76,6 +82,7 @@ int main()
 		}
 	}
 	while(count != p && process != -1);
+	
 	if(count == p)
 	{
 		printf("\nThe system is in a safe state!!\n");
