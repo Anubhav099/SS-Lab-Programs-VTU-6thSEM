@@ -70,7 +70,7 @@
 #line 1 "6b.y"
 
 #include<stdio.h>
-extern FILE *yyin;
+extern *yyin;
 int id=0, dig=0, key=0, op=0;
 
 #line 77 "y.tab.c"
@@ -96,7 +96,10 @@ int id=0, dig=0, key=0, op=0;
 #  endif
 # endif
 
-
+/* Use api.header.include to #include this header
+   instead of duplicating it here.  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -145,7 +148,7 @@ extern YYSTYPE yylval;
 int yyparse (void);
 
 
-
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -158,7 +161,7 @@ enum yysymbol_kind_t
   YYSYMBOL_KEY = 5,                        /* KEY  */
   YYSYMBOL_OP = 6,                         /* OP  */
   YYSYMBOL_YYACCEPT = 7,                   /* $accept  */
-  YYSYMBOL_input = 8                       /* input  */
+  YYSYMBOL_S = 8                           /* S  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -545,7 +548,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    10,    10,    11,    12,    13,    14,    15,    16,    17
+       0,     9,     9,    10,    11,    12,    13,    14,    15,    16
 };
 #endif
 
@@ -562,7 +565,7 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "DIGIT", "ID", "KEY",
-  "OP", "$accept", "input", YY_NULLPTR
+  "OP", "$accept", "S", YY_NULLPTR
 };
 
 static const char *
@@ -1104,56 +1107,56 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* input: DIGIT input  */
+  case 2: /* S: DIGIT S  */
+#line 9 "6b.y"
+           { dig++; }
+#line 1114 "y.tab.c"
+    break;
+
+  case 3: /* S: ID S  */
 #line 10 "6b.y"
-            { dig++; }
-#line 1111 "y.tab.c"
+       { id++; }
+#line 1120 "y.tab.c"
     break;
 
-  case 3: /* input: ID input  */
+  case 4: /* S: KEY S  */
 #line 11 "6b.y"
-           { id++; }
-#line 1117 "y.tab.c"
+        { key++; }
+#line 1126 "y.tab.c"
     break;
 
-  case 4: /* input: KEY input  */
+  case 5: /* S: OP S  */
 #line 12 "6b.y"
-            { key++; }
-#line 1123 "y.tab.c"
+       {op++;}
+#line 1132 "y.tab.c"
     break;
 
-  case 5: /* input: OP input  */
+  case 6: /* S: DIGIT  */
 #line 13 "6b.y"
-           {op++;}
-#line 1129 "y.tab.c"
-    break;
-
-  case 6: /* input: DIGIT  */
-#line 14 "6b.y"
         { dig++; }
-#line 1135 "y.tab.c"
+#line 1138 "y.tab.c"
     break;
 
-  case 7: /* input: ID  */
-#line 15 "6b.y"
+  case 7: /* S: ID  */
+#line 14 "6b.y"
      { id++; }
-#line 1141 "y.tab.c"
+#line 1144 "y.tab.c"
     break;
 
-  case 8: /* input: KEY  */
-#line 16 "6b.y"
+  case 8: /* S: KEY  */
+#line 15 "6b.y"
       { key++; }
-#line 1147 "y.tab.c"
+#line 1150 "y.tab.c"
     break;
 
-  case 9: /* input: OP  */
-#line 17 "6b.y"
+  case 9: /* S: OP  */
+#line 16 "6b.y"
      { op++;}
-#line 1153 "y.tab.c"
+#line 1156 "y.tab.c"
     break;
 
 
-#line 1157 "y.tab.c"
+#line 1160 "y.tab.c"
 
       default: break;
     }
@@ -1346,26 +1349,21 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 19 "6b.y"
+#line 17 "6b.y"
 
 
 void main() 
 {
-	FILE *myfile = fopen("input.c", "r"); 
-	if (!myfile) 
+	yyin = fopen("input.c", "r"); 
+	while(!feof(yyin))
 	{
-		printf("Can't open input.c!");
-		return -1;
-	}
-	yyin = myfile;
-	do{
 		yyparse();
-	}while (!feof(yyin));
-
+	}
+	fclose(yyin);
 	printf("Numbers= %d\nIdentifiers= %d\nOperators= %d\nKeywords= %d\n",dig, id, op, key);
 }
 
 void yyerror() {
-	printf("EEK, parse error! Message: ");
+	printf("Error!");
 	exit(-1);
 }
