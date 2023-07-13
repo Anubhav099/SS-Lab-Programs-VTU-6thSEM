@@ -13,8 +13,6 @@ int main()
     scanf("%s",str);
     int l = strlen(str);
 
-    for(i=0;i<f;i++)    frame[i]=-1;
-
     do
     {
         printf("\n*********** MENU ***********");
@@ -23,13 +21,15 @@ int main()
         scanf("%d",&ch);
 
         for(i=0;i<f;i++) frame[i]=-1;
-	    printf("\nPAGE\t\tFRAMES\t\tFAULTS");
+        
+	printf("\nPAGE\t\tFRAMES\t\tFAULTS");
         switch(ch)
         {
             case 1: FIFO(str,frame,l,f); break;
 
             case 2: LRU(str,frame,l,f);
         }
+        
         printf("\n\nPress 0 to Exit and 1 to continue : ");
         scanf("%d",&YN);
     } while(YN==1);
